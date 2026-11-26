@@ -31,5 +31,7 @@ It writes the line, UTF-8, to `/output/entry.txt` (override the directory with
 
 ## Limits
 
-The line is fixed text, 159 characters, inside the 1 to 200 character gate.
+The line is fixed text, 158 characters, inside the 1 to 200 character gate.
+The program checks the line against that gate before writing and throws
+instead of producing an entry the scorer would refuse.
 The program does nothing else: no input, no state, same bytes on every run.

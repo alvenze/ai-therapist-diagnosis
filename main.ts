@@ -13,7 +13,23 @@ function entryPath(): string {
   return `${dir}/entry.txt`;
 }
 
+// The gate refuses anything outside 1..200 characters, a second line, or a
+// blank text, so check the line against it before writing: a careless edit
+// of DIAGNOSIS then fails loudly here instead of silently at grading.
+function assertGateOk(text: string): void {
+  if (text.length < 1 || text.length > 200) {
+    throw new Error(`entry is ${text.length} chars, outside the 1..200 gate`);
+  }
+  if (text.includes("\n")) {
+    throw new Error("entry must be a single line");
+  }
+  if (text.trim().length === 0) {
+    throw new Error("entry must not be blank");
+  }
+}
+
 function main(): void {
+  assertGateOk(DIAGNOSIS);
   const path = entryPath();
   mkdirSync(dirname(path), { recursive: true });
   writeFileSync(path, DIAGNOSIS, "utf8");
